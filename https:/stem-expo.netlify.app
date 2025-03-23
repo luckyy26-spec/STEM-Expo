@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM EXPO Scarecrow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        function updateWaterLevel() {
+            let waterLevel = Math.floor(Math.random() * 11) + 25; // Random between 25% - 35%
+            let timestamp = new Date().toLocaleTimeString();
+            
+            document.getElementById("waterLevel").innerText = waterLevel + "%";
+            document.getElementById("debugLevel").innerText = waterLevel + "%";
+            document.getElementById("debugTimestamp").innerText = timestamp;
+            
+            let warningBox = document.getElementById("warning");
+            let overlay = document.getElementById("overlay");
+
+            if (waterLevel < 30) {
+                overlay.classList.remove("hidden");
+                warningBox.classList.remove("hidden");
+                document.getElementById("debugWarning").innerText = "⚠️ LOW WATER LEVEL!";
+            } else {
+                overlay.classList.add("hidden");
+                warningBox.classList.add("hidden");
+                document.getElementById("debugWarning").innerText = "✅ Normal";
+            }
+        }
+
+        setInterval(updateWaterLevel, 3000); // Update every 3 seconds
+    </script>
+</head>
+<body class="h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 to-blue-500">
+    <!-- Main Monitor -->
+    <div class="relative bg-white bg-opacity-20 backdrop-blur-lg shadow-2xl p-10 rounded-3xl w-full max-w-lg text-center border border-white border-opacity-30">
+        <h1 class="text-5xl font-bold text-white drop-shadow-lg">STEM EXPO Scarecrow</h1>
+        <div class="mt-6 p-6 rounded-xl bg-white bg-opacity-30 shadow-lg border border-white border-opacity-20">
+            <h2 class="text-3xl font-semibold text-gray-900">Smart Water Tank Monitor</h2>
+            <p id="waterLevel" class="text-6xl font-bold mt-4 text-blue-600">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Warning Overlay -->
+    <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+        <div id="warning" class="bg-red-600 text-white p-10 rounded-xl shadow-2xl text-center text-3xl font-bold animate-bounce">
+            ⚠️ Water level is below 30%! Please refill the tank.
+        </div>
+    </div>
+
+    <!-- Debug Screen -->
+    <div class="mt-6 bg-gray-900 text-white p-6 rounded-xl shadow-lg w-full max-w-lg">
+        <h2 class="text-2xl font-semibold">🔍 Debug Info</h2>
+        <p class="mt-2">📡 ESP8266 Status: <span class="text-green-400 font-semibold">Connected</span></p>
+        <p class="mt-2">💧 Water Level: <span id="debugLevel" class="text-blue-400 font-semibold">Loading...</span></p>
+        <p class="mt-2">⏰ Last Update: <span id="debugTimestamp" class="text-yellow-400 font-semibold">Loading...</span></p>
+        <p class="mt-2">⚠️ Warning: <span id="debugWarning" class="font-semibold">Loading...</span></p>
+    </div>
+</body>
+</html>
